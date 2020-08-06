@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="edu_customer_meiya" uuid="69b6e4c6-2ab3-4b51-b62a-bc30e1986df8">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\pythonstudy\mysite\edu_customer_meiya</jdbc-url>
+    </data-source>
+  </component>
+</project>
