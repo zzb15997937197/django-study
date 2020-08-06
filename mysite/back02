@@ -7,9 +7,12 @@
 3.  怎么使用create()方法创建对象，怎么使用save()方法修改对象。
 
 4.   def __str__(self):
-        return self.name  有什么用?
-
+        return self.name  有什么用?  在执行查询时，返回的QuerySet会返回出这个model定义的name。
 
 5. 怎么去检索出一个表中的全部记录?
+      直接通过User.objects.all().values_list("username","password"),即可拿出querySet对象里的所有记录,其中querySet是一个对象的结果集。
+6. 对Model的一些操作。
 
-6. 对MoDel的一些操作。
+
+7. __dict__ 有什么用处?
+
