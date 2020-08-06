@@ -30,13 +30,14 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
-
 class Entry(models.Model):
+    # 有一个外键，blog_id，会直接关联到Blog表。
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
     headline = models.CharField(max_length=255)
     body_text = models.TextField()
     pub_date = models.DateField()
     mod_date = models.DateField()
+    ##多对多关联关系，author表与entry表存在多对多的关系
     authors = models.ManyToManyField(Author)
     number_of_comments = models.IntegerField()
     number_of_pingbacks = models.IntegerField()

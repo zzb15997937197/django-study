@@ -22,3 +22,12 @@ class InsertUser(APIView):
 
     def post(self, request,name):
         return self.get_or_create(request,name)
+
+
+class SelectUser(APIView):
+    def get(self,request):
+        print("查询员工信息!")
+        user=User.objects.all().values_list("username","password")
+        print(user)
+        print("查询完毕!")
+        return HttpResponse(user)

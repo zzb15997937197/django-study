@@ -8,3 +8,8 @@
 
 4.   def __str__(self):
         return self.name  有什么用?
+
+
+5. 怎么去检索出一个表中的全部记录?
+
+6. 对MoDel的一些操作。
