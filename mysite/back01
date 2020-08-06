@@ -1,0 +1,54 @@
+(20200805)day01:
+1. 程序的入口在哪儿?
+    在manage.py为程序的入口
+2. 怎么去找一个请求？ 请求是怎么映射的?
+    在urls.py文件里包含了路由的路径和指定的模块。
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('app/', include('edu_saas_app.urls')),
+]
+模块为/app,包含了edu_saas_app模块下的urls.py文件
+
+3. pycharm的前进后退快捷键， 后退 ctr+alt+<-  向左的方向键 ,前进 ctr+alt+-> 向右的方向键, pycharm的对齐快捷键: ctr+alt+L
+
+4. 怎么配置数据源？
+    在主模块的settings.py文件的指定属性DATABASES里定义加载的数据库，default为默认加载的数据库，另外需要指定数据库的引擎、
+    用户名、密码等信息。
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'edu_customer_meiya',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': 3306
+    },
+    'admin': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'meiya_edu_saas_admin',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': 3306
+    }
+}
+
+5. 启动服务器的命令，指定启动的端口为8080
+    python manage.py runserver 8080
+
+6. models.py为模型层，用来与数据库的实体进行映射的。 定义完成后，需要在主模块里讲模块添加到INSTALLED_APPS={}里面去
+
+7. 怎么使用数据迁移?
+    在models里建立好模型后，需要先生成迁移文件，然后再执行迁移文件里的脚本。
+    生成迁移文件的命令:
+    python manage.py makemigrations
+    执行脚本到数据库:
+    python manage.py migrate
+
+8. 怎么定义路由的页面?
+   需要在urls.urlpatterns={} 指定path和views，前提是需要将views先导进来, from . import views
+   如果是一个请求的业务逻辑，那么路由导指定的类下处理业务逻辑:
+    path('dump_resource', DumpResource.as_view()),

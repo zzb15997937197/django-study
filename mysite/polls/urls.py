@@ -5,6 +5,6 @@ from polls.user import InsertUser
 
 urlpatterns = [
     #name属性可以随意取
-    path('index', views.index, name='index'),
-    path('insert/record',InsertUser.as_view())
+    path(r'index', views.index, name='index'),
+    path(r'insert/record/<name>',InsertUser.as_view())
 ]
