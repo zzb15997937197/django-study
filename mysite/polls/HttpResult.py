@@ -9,20 +9,21 @@ logging.basicConfig(stream=sys.stdout,
                     level=logging.INFO)
 log = logging.getLogger(__name__)
 
+
 class Result:
-    code = 0
+    code = 200
     message = 'OK'
 
-    def __init__(self, code=0, message='OK', data=None, data_count=None):
-       self.code = code
-       self.message = message
-       self.clock = time.time()
+    def __init__(self, code=200, message='OK', data=None, data_count=None):
+        self.code = code
+        self.message = message
+        self.clock = time.time()
 
-       if data is not None:
-           self.data = data
+        if data is not None:
+            self.data = data
 
-       if data_count is not None:
-          self.data_count = data_count
+        if data_count is not None:
+            self.data_count = data_count
 
     def to_json_string(self):
         self.elapsed = int((time.time() - self.clock) * 1000)

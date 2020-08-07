@@ -27,15 +27,15 @@ class InsertUser(APIView):
 
 
 class SelectUser(APIView):
-    def get(self, request):
+    def get(self, request, uuid):
         print("查询员工信息!")
         user = User.objects.all().values_list("username", "password")
         print(user)
         # 使用filter,类似于Mysql的where子句
-        user1 = User.objects.all().filter(username="猪猪").values_list("password")
+        user1 = User.objects.all().filter(username="zhuzhu").values_list("password")
         print(user1)
         # .exclude  排除
-        user2 = User.objects.all().exclude(username="猪猪").values_list("username", "password")
+        user2 = User.objects.all().exclude(username="zhuzhu").values_list("username", "password")
         print(user2)
         one_entry = User.objects.get(pk=1)
         print(one_entry)
@@ -44,6 +44,7 @@ class SelectUser(APIView):
 
 
 # 登入
+
 class UserSerialize(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -71,6 +72,8 @@ class UserLogin(APIView):
             # 否则登录成功, 在赋值给session之前需要先将result转换为json串，否则报错:TypeError: Object of type User is not JSON serializable
             # request.session['user'] = result
             # print(request.session['user'])
+            print("找到记录:", result)
+            # 此处必须要传result,否则序列化后的结果为""
             r.data = UserSerialize(result).data
             print("序列化后的对象信息为:", r.data)
             ## {'id': 4, 'username': 'zhuzhu', 'password': '123456'}
@@ -79,7 +82,7 @@ class UserLogin(APIView):
         except Exception as e:
             r.error(e)
             return HttpResponse(e)
-        return self.s_result(r)
+        return JsonResponse(r.data)
 
 
 # 登出
