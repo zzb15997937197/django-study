@@ -58,7 +58,6 @@ class UserLogin(APIView):
         return JsonResponse(result.__dict__,
                             json_dumps_params={'sort_keys': False, 'indent': 4, 'ensure_ascii': False}, safe=False)
 
-
     def post(self, request):
         r = Result()
         try:
@@ -72,13 +71,31 @@ class UserLogin(APIView):
             # 否则登录成功, 在赋值给session之前需要先将result转换为json串，否则报错:TypeError: Object of type User is not JSON serializable
             # request.session['user'] = result
             # print(request.session['user'])
-            r.data= UserSerialize(result).data
-            print(r.data)
+            r.data = UserSerialize(result).data
+            print("序列化后的对象信息为:", r.data)
             ## {'id': 4, 'username': 'zhuzhu', 'password': '123456'}
-            request.session['user']=r.data
+            request.session['user'] = r.data
+            print('dict一些信息:', self.__dict__)
         except Exception as e:
             r.error(e)
             return HttpResponse(e)
         return self.s_result(r)
 
+
 # 登出
+class UserLogout(APIView):
+    def post(self, request):
+        # 先获取用户
+        self.getuser(request)
+        # 删除用户信息
+        self.outuser(request)
+
+    def getuser(self, request):
+        if 'student' not in request.session:
+            raise Exception('请先登录！')
+            # 跳转到登录页面
+        else:
+            self.student = request.session['student']
+
+    def outuser(self, request):
+        del request.session['user']
