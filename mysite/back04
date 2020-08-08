@@ -1,0 +1,9 @@
+
+1. 怎么使用admin用户?
+    选择一个新的数据库，然后根据新的数据库创建admin用户
+    python manage.py migrate
+    python manage.py createsuperuser
+
+
+2. 怎么将自定义的model或者组建注册到admin用户中进行管理?
+

@@ -1,0 +1,36 @@
+
+1. self 表示Python的当前对象的指针，相当于java中的this。
+
+
+2.  python的静态变量，类方法，静态方法的区别
+
+    1)在类里声明的变量为静态变量,如value
+    2)@classmethod标记的方法为类方法，类方法自带cls参数，根据此参数可以来调用静态变量的属性
+    3)@staticmethod标记的方法为静态方法，静态方法只能够根据类名.获取类的静态变量。
+    class Foo:
+
+    value = 1
+
+    @classmethod
+    def a(cls):
+        print(cls.value)
+        print("类方法")
+
+    @staticmethod
+    def b():
+        print(Foo.value)
+        print("静态方法")
+Foo.a()
+Foo.b()
+
+
+3. 类的__init__方法的使用
+   在类初始化的时候使用，传参的时候带有self和其他变量。
+   class A:
+       def __init__(self,name,age):
+           self.name=name
+           self.age=age
+
+4. 怎么创建关联的model?
+   外键:  blog = models.ForeignKey(Blog, on_delete=models.CASCADE)  blog_id为entry表的外键
+   多对多关联:    authors = models.ManyToManyField(Author)  表示entry表与author表存在多对多的关联,那么会在两个表之间生成一个关联表。字段为entry_id何author_id

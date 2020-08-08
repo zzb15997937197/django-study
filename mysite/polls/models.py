@@ -40,7 +40,7 @@ class Entry(models.Model):
     body_text = models.TextField()
     pub_date = models.DateField()
     mod_date = models.DateField()
-    ##多对多关联关系，author表与entry表存在多对多的关系
+    ##多对多关联关系，author表与entry表存在多对多的关系,通过entry_id和author_id来关联
     authors = models.ManyToManyField(Author)
     number_of_comments = models.IntegerField()
     number_of_pingbacks = models.IntegerField()

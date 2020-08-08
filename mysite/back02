@@ -15,7 +15,7 @@
 
 
 7. __dict__ 有什么用处?
-   包含了类自身的一些信息
+   是一个类含有的隐秘对象，包含了类自身的一些信息，返回的是用于实现模块命名空间的字典。
     {'request': <rest_framework.request.Request object at 0x000001B7F8BD7B20>,
     'args': (), 'kwargs': {},
     '_negotiator': <rest_framework.negotiation.DefaultContentNegotiation object at 0x000001B7F8BBC460>,
@@ -32,6 +32,6 @@
   2)  如果一个model里含有其他的model，含有关联关系，那么应该怎么序列化？
 
 9. request的Session问题
-  给session设置时间
+  给session设置时间,在settys.py文件里，有设置全局session的失效时间。
   session 失效后应该自动跳回至登录页面
   点击退出登录后，应该要跳转至登录页面。

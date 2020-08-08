@@ -6,6 +6,7 @@ from polls.models import User
 from rest_framework import serializers
 from django.http import JsonResponse
 
+from polls.Serializers import UserSerializers
 
 class InsertUser(APIView):
     def get_or_create(self, request, name):
@@ -45,12 +46,6 @@ class SelectUser(APIView):
 
 # 登入
 
-class UserSerialize(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("id", "username", "password")
-
-
 class UserLogin(APIView):
 
     @staticmethod
@@ -73,8 +68,9 @@ class UserLogin(APIView):
             # request.session['user'] = result
             # print(request.session['user'])
             print("找到记录:", result)
-            # 此处必须要传result,否则序列化后的结果为""
-            r.data = UserSerialize(result).data
+            #当前登录的result为User对象里的信息
+            # 序列化的时候此处必须要传result,否则序列化后的结果为""
+            r.data = UserSerializers(result).data
             print("序列化后的对象信息为:", r.data)
             ## {'id': 4, 'username': 'zhuzhu', 'password': '123456'}
             request.session['user'] = r.data
@@ -94,11 +90,11 @@ class UserLogout(APIView):
         self.outuser(request)
 
     def getuser(self, request):
-        if 'student' not in request.session:
+        if 'user' not in request.session:
             raise Exception('请先登录！')
             # 跳转到登录页面
         else:
-            self.student = request.session['student']
+            self.student = request.session['user']
 
     def outuser(self, request):
         del request.session['user']
