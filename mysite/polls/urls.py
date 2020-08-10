@@ -4,10 +4,13 @@ from . import views
 from polls.user import InsertUser, SelectUser, UserLogin, UserLogout
 
 urlpatterns = [
+    #ex: polls
     # name属性可以随意取
-    path(r'index', views.index, name='index'),
-    path(r'insert/record/<name>', InsertUser.as_view()),
-    path(r'select/all/record/<uuid>', SelectUser.as_view()),
-    path(r'login', UserLogin.as_view()),
-    path(r'logout', UserLogout.as_view())
+    path('', views.index, name='index'),
+    path('<int:q_id>/',views.detail,name='detail'),
+    path('<int:q_id>/result',views.result,name='result'),
+    path('insert/record/<name>', InsertUser.as_view()),
+    path('get/records', SelectUser.as_view()),
+    path('login', UserLogin.as_view()),
+    path('logout', UserLogout.as_view())
 ]
