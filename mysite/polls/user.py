@@ -1,12 +1,11 @@
 from django.http import HttpResponse
-from requests import Response
 from rest_framework.views import APIView
 from polls.HttpResult import Result
-from polls.models import User
-from rest_framework import serializers
+from polls.models import User, MyClassReource
 from django.http import JsonResponse
 
 from polls.Serializers import UserSerializers
+
 
 class InsertUser(APIView):
     def get_or_create(self, request, name):
@@ -28,18 +27,26 @@ class InsertUser(APIView):
 
 
 class SelectUser(APIView):
-    def get(self, request, uuid):
+    def get(self, request):
         print("查询员工信息!")
         user = User.objects.all().values_list("username", "password")
         print(user)
         # 使用filter,类似于Mysql的where子句
         user1 = User.objects.all().filter(username="zhuzhu").values_list("password")
         print(user1)
+        try:
+            if user1 is None:
+                raise Exception("没有找到zhuzhu用户")
+        except Exception as e:
+            return HttpResponse(e)
         # .exclude  排除
         user2 = User.objects.all().exclude(username="zhuzhu").values_list("username", "password")
+        try:
+            if user2 is None:
+                raise Exception("exclude失败，没有找到zhuzhu")
+        except Exception as e:
+            return HttpResponse(e)
         print(user2)
-        one_entry = User.objects.get(pk=1)
-        print(one_entry)
         print("查询完毕!")
         return HttpResponse(user)
 
@@ -68,7 +75,7 @@ class UserLogin(APIView):
             # request.session['user'] = result
             # print(request.session['user'])
             print("找到记录:", result)
-            #当前登录的result为User对象里的信息
+            # 当前登录的result为User对象里的信息
             # 序列化的时候此处必须要传result,否则序列化后的结果为""
             r.data = UserSerializers(result).data
             print("序列化后的对象信息为:", r.data)
@@ -98,3 +105,15 @@ class UserLogout(APIView):
 
     def outuser(self, request):
         del request.session['user']
+
+
+## 查询我的班级信息
+class MyClassInfo(APIView):
+    def get(self, request, uid):
+        r = Result()
+        # 根据uid来获取到
+        user = MyClassReource.objects.filter(id=uid).first()
+
+        print(user)
+        myClassReource = MyClassReource.objects.filter(id=uid)
+        return HttpResponse("成功")
