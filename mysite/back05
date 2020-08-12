@@ -1,0 +1,54 @@
+
+
+1. django怎么获取到querySet里面的内容?
+  例如: <QuerySet [('bingbing', '123'), ('bingbing', '123456')]>
+
+
+
+2. 怎么返回给前端对应的中文字段？  json序列化
+   通过serializers.SerializerMethodFiel()方法来获取要转化成中文字段的对象，然后在@staticmethod装饰器的方法里判断英文是什么就返回什么。
+   比如obj.gender 为0时，返回"男"。
+     class Meta:
+        model = User
+        fields = ["id", "username", "password", "gender", "gender_name"]
+
+    @staticmethod
+    def get_gender_name(obj):
+        gender = obj.gender
+        if gender == 0:
+            return "男"
+        else:
+            return "女"
+3. 怎么进行2个表之间的关联查询?
+   通过在序列化时候使用source来属性来实现，属性里获取的user为定义外键时创建的user对象。
+
+class MyClassInfoSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source='student.id')
+    user_name = serializers.CharField(source='student.name', allow_blank=True, allow_null=True)
+    resource_package_id = serializers.CharField(source='rource.id', allow_blank=True, allow_null=True)
+    resource_name = serializers.CharField(source='rource.name', allow_blank=True, allow_null=True)
+    resource_price = serializers.CharField(source='rource.price', allow_blank=True, allow_null=True)
+    resource_sales = serializers.CharField(source='rource.sales', allow_blank=True, allow_null=True)
+    resource_description = serializers.CharField(source='rource.description', allow_blank=True,
+                                                 allow_null=True)
+
+    class Meta:
+        model = MyClassReource
+        fields = ('user_id',
+                  'user_name',
+                  'resource_package_id',
+                  'resource_name',
+                  'resource_price',
+                  'resource_sales',
+                  'resource_description')
+    定义的model里包含source属性里面的user为在model里定义外键的对象。
+
+    在序列化时，需要传一个参数many=True,否则source属性会出现找不到外键对象的情况。
+
+
+
+
+
+4. 登录admin平台报错：
+No module named 'iaasms'
+   解决方案: 重新导包。
