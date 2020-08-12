@@ -6,17 +6,4 @@
 
 
 2. 怎么将自定义的model或者组建注册到admin用户中进行管理?
-    1) 先导入admin模块
-        from django.contrib import admin
-
-    2) 将定义的Model导入，另外自定义一个ModelAdmin模块
-         from polls.user import User
-
-         自定义ModelAdmin模块,声明2个属性，一个为list_per_page表示显示的记录数的分页，一个为list_display表示admin模块要显示的用户名和密码。
-         class UserAdmin(admin.ModelAdmin):
-            list_per_page=20
-            list_display=("username","password")
-
-    3)  注册
-          admin.site.register(User,UserAdmin)
 
