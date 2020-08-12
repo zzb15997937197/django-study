@@ -1,9 +1,7 @@
 from django.http import HttpResponse
-from requests import Response
 from rest_framework.views import APIView
 from polls.HttpResult import Result
-from polls.models import User
-from rest_framework import serializers
+from polls.models import User, MyClassReource
 from django.http import JsonResponse
 
 from polls.Serializers import UserSerializers
@@ -98,3 +96,15 @@ class UserLogout(APIView):
 
     def outuser(self, request):
         del request.session['user']
+
+
+## 查询我的班级信息
+class MyClassInfo(APIView):
+    def get(self, request, uid):
+        r = Result()
+        # 根据uid来获取到
+        user = MyClassReource.objects.filter(id=uid).first()
+
+        print(user)
+        myClassReource = MyClassReource.objects.filter(id=uid)
+        return HttpResponse("成功")

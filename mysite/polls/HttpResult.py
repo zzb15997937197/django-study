@@ -1,6 +1,5 @@
 import json
 import time
-import traceback
 import logging
 import sys
 
