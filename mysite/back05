@@ -1,12 +1,14 @@
-from rest_framework import serializers
-
-from polls.models import User, MyClassReource
 
 
-class UserSerializers(serializers.ModelSerializer):
-    gender_name = serializers.SerializerMethodField()
+1. django怎么获取到querySet里面的内容?
+  例如: <QuerySet [('bingbing', '123'), ('bingbing', '123456')]>
 
-    class Meta:
+
+
+2. 怎么返回给前端对应的中文字段？  json序列化
+   通过serializers.SerializerMethodFiel()方法来获取要转化成中文字段的对象，然后在@staticmethod装饰器的方法里判断英文是什么就返回什么。
+   比如obj.gender 为0时，返回"男"。
+     class Meta:
         model = User
         fields = ["id", "username", "password", "gender", "gender_name"]
 
@@ -17,8 +19,8 @@ class UserSerializers(serializers.ModelSerializer):
             return "男"
         else:
             return "女"
-
-
+3. 怎么进行2个表之间的关联查询?
+   通过在序列化时候使用source来属性来实现，属性里获取的user为定义外键时创建的user对象。
 
 class MyClassInfoSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='student.id')
@@ -39,4 +41,14 @@ class MyClassInfoSerializer(serializers.ModelSerializer):
                   'resource_price',
                   'resource_sales',
                   'resource_description')
+    定义的model里包含source属性里面的user为在model里定义外键的对象。
 
+    在序列化时，需要传一个参数many=True,否则source属性会出现找不到外键对象的情况。
+
+
+
+
+
+4. 登录admin平台报错：
+No module named 'iaasms'
+   解决方案: 重新导包。
