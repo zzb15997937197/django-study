@@ -1,0 +1,37 @@
+
+
+1. 序列化时，class Meta: 下的model 可以为多个Model嘛？
+   不可以，只能有一个model。
+   如果是一对多的模式，可以直接使用直接序列关联的外键。 detail为关联的外键的model
+    detail = DeitalSerializer()
+   如果是多对多的模式，那么用serializers.SerializeMethodField()获取到一个新的对象schedule，
+   然后再使用get_schedule方法来获取到所有的对象，obj.schedule.all()获取到所有班级对应的课程。
+   然后对每一个schedule对象进行序列化。
+       def get_schedule(self, obj):
+        sch = obj.schedule.all()
+        print("sch:",sch)
+        ##sch: <TimestampQuerySet [<Schedule: 英语第一练>, <Schedule: 英语第一练>, <Schedule: 英语第一练>, <Schedule: 英语第一练>]>
+        s = ScheduleSerializer(sch, many=True)
+        return s.data
+
+2. 怎么使用分页?
+    使用django.core.paginator 下的paginator实现分页。
+
+
+
+3. 怎么使用原生的sql执行数据库查询?
+    可以直接在views.py文件里新建一个查询sql的方法，然后获取到参数后，再把结果拿出来即可:
+    需要先导入一下包:
+    from django.db import connection
+
+    def my_custom_sql(request):
+    username = request.GET.get("username")
+    with connection.cursor() as cursor:
+        cursor.execute("select * from sys_user where username=%s", [username])
+        row = cursor.fetchone()
+    return HttpResponse(row)
+
+    还有一种方式，你可以通过对象来执行原先的sql:
+     for p in Person.objects.raw('SELECT * FROM myapp_person'):
+...     print(p)
+

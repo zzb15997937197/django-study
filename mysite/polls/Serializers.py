@@ -19,7 +19,6 @@ class UserSerializers(serializers.ModelSerializer):
             return "女"
 
 
-
 class MyClassInfoSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='student.id')
     user_name = serializers.CharField(source='student.name', allow_blank=True, allow_null=True)
@@ -39,4 +38,3 @@ class MyClassInfoSerializer(serializers.ModelSerializer):
                   'resource_price',
                   'resource_sales',
                   'resource_description')
-
