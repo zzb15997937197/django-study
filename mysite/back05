@@ -2,7 +2,7 @@
 
 1. django怎么获取到querySet里面的内容?
   例如: <QuerySet [('bingbing', '123'), ('bingbing', '123456')]>
-
+    直接遍历，或者通过.first()方法、value_lists()方法来获取指定字段的值。
 
 
 2. 怎么返回给前端对应的中文字段？  json序列化
@@ -44,8 +44,6 @@ class MyClassInfoSerializer(serializers.ModelSerializer):
     定义的model里包含source属性里面的user为在model里定义外键的对象。
 
     在序列化时，需要传一个参数many=True,否则source属性会出现找不到外键对象的情况。
-
-
 
 
 

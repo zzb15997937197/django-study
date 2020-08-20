@@ -31,7 +31,127 @@
         row = cursor.fetchone()
     return HttpResponse(row)
 
+    使用with .. as ..
+    sql执行完毕后，可以自动关闭数据库的连接。
+
     还有一种方式，你可以通过对象来执行原先的sql:
      for p in Person.objects.raw('SELECT * FROM myapp_person'):
 ...     print(p)
 
+
+4. 启动时间报错：
+   RuntimeWarning: DateTimeField SysClassDetail.fromTime received a naive datetime (2020-08-14 17:41:17.849080) whi
+le time zone support is active.
+   设置时区和USE_TZ=FALSE即可解决问题:
+   TIME_ZONE = 'Asia/Shanghai'
+  当 USE_TZ = True时，系统采用UTC时间；
+  当 USE_TZ = False时，系统采用要看TIME_ZONE（时区）是否设置。若已设置时区，项目采用设置的时区的时间；若未设置，项目采用巴西时区的时间（utc-5），目前还不清楚为什么采用巴西的时区时间。
+
+
+5. 索引
+   唯一性索引:  unique_together
+   联合索引:  model.indexs(fields=['first_name','last_name'])
+
+
+6. 模糊查询
+    通过使用name__icontains()属性即可。
+
+
+7. 怎么在控制台上打印日志:
+
+   LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+    }
+}
+
+
+8. 选择数据库进行更新
+    1) 更新
+      my_object.save(using='legacy_users')
+
+    2) 查询,可以选择默认的数据库，或者配置的admin数据库
+       Author.objects.using('default').all()
+
+9. 怎么在json里新增一条自定义的信息?
+    可以直接通过r.v= value ,然后再转json串就行
+
+10. 怎么给小数的结果取2位小数
+    推荐使用方法: r.avg_score = ('%.1f' % (total / r.data_count / 3))
+
+
+11. django怎么开启事务?
+   from django.db import transaction
+with transaction.atomic():
+    ...
+
+#第二种 装饰器
+@transaction.atomic
+    def post(self,request):
+            ...
+            sid=transaction.savepoint()  #开启事务
+            ...
+            transaction.savepoint_rollback(sid)  # 回滚
+            ...
+            transaction.savepoint_commit(sid)  # 提交
+
+12. 怎么根据条件来进行查询?
+     在url后拼接参数:
+      http://bing.bojixt.com:8001/app/my/feedback/info/1?page=1&size=10&type_id=1
+
+        # 根据类型来分类
+        type_id = request.GET.get("type_id")
+        if type_id is not None:
+            feed_type = FeedBackType(id=type_id)
+            feed_backs = Feedback.objects.all().filter(student_id=uid, delete_datetime=None, type=feed_type)
+        else:
+            feed_backs = Feedback.objects.all().filter(student_id=uid, delete_datetime=None)
+
+
+
+13. 怎么让model不迁移到数据库里?
+     目前没有实现
+
+
+14.  怎么计算日期?
+    "2020-08-13T15:22:52"
+     1. 字符串怎么转日期？
+
+       已经解决！待整理
+       使用timezone来计算2个日期的时间差！
+       1) 在序列化的时候，要将获取出来的时间进行序列化操作，在序列化的时候通过str()方法,将日期转换为字符串。
+       2)通过timezone下的datetime类来讲字符串日期转换为datetime
+           datetime.strptime(s, '%Y-%m-%d'))  # 2019-01-20 00:00:00
+       3）转换后的格式就相当于timezone.now()获取出来的时间。
+       4) 通过比较时间戳来计算天数。
+         import time
+
+             @staticmethod
+      def get_difference(start, end):
+        start_time = start.strftime('%Y-%m-%d %H:%M:%S')
+        end_time = end.strftime('%Y-%m-%d %H:%M:%S')
+        now = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+        old = time.strptime(end_time, '%Y-%m-%d %H:%M:%S')
+        # 转为时间戳后，时间戳相减
+        delta_seconds = time.mktime(now) - time.mktime(old)
+        return delta_seconds / 3600 / 24
+
+
+15. 怎么将小数转换为整数，整数与小数互换？
+      整数转换为小数:  rount(int,2)
+
+16. filter怎么根据条件表达式来进行判断?
+     比如  endTime-startTime>30 表示失效
+           否则是有效的。

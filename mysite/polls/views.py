@@ -7,6 +7,7 @@ from django.template.context import Context
 from django.http import HttpResponse, JsonResponse
 from polls.HttpResult import Result
 from django.db import connection
+from polls.models import Student
 from polls.Serializers import UserSerializers
 
 from django.shortcuts import render, render_to_response, redirect
@@ -29,3 +30,10 @@ def my_custom_sql(request):
         row = cursor.fetchall()
         print("row", row)
     return HttpResponse(row)
+
+
+def get_user_by_username(request, username=None):
+    r = Result()
+    student = Student.objects.get(name__icontains=username)
+    print(student)
+    return HttpResponse("success")

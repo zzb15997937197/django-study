@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from polls.HttpResult import Result
 from polls.models import User, MyClassReource
 from django.http import JsonResponse
+from polls.BaseView import BaseView
+from django.db import transaction
 
 from polls.Serializers import UserSerializers
 
@@ -24,6 +26,27 @@ class InsertUser(APIView):
 
     def post(self, request, name):
         return self.get_or_create(request, name)
+
+
+class ChageUserInfo(BaseView):
+
+    # 要么全部成功，要么全部失败
+    @transaction.atomic
+    def put(self, request, uid=None):
+        r = Result()
+        a = 1
+        try:
+            # 开启事务
+            tid = transaction.savepoint()
+            user = User(id=uid)
+            user.username = "bingbing"
+            user.save()
+            raise Exception("出错了!")
+            transaction.savepoint_commit(tid)
+        except Exception as e:
+            transaction.savepoint_rollback(tid)
+            r.error(e)
+        return self.s_result(r)
 
 
 class SelectUser(APIView):
@@ -108,6 +131,3 @@ class MyClassInfo(APIView):
         print(user)
         myClassReource = MyClassReource.objects.filter(id=uid)
         return HttpResponse("成功")
-
-
-

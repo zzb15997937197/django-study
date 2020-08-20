@@ -188,3 +188,49 @@ class MyClassReource(models.Model):
         verbose_name = "我的班级"
         verbose_name_plural = "我的班级资源包"
         db_table = "user_to_resource"
+
+
+class Customer(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+    class Meta:
+        indexes = [
+            # 联合索引，遵循mysql的最左匹配原则
+            models.Index(fields=['last_name', 'first_name']),
+            # 单个索引
+            models.Index(fields=['first_name'], name='first_name_idx'),
+        ]
+        # 唯一性约束
+        unique_together = ('first_name', 'last_name',)
+        verbose_name = "客户表"
+        verbose_name_plural = "客户表"
+        db_table = "sys_customer"
+
+
+# 反馈类型表
+class FeedBackType(TimestampModel):
+    name = models.CharField(max_length=50, verbose_name="类型名称")
+
+    class Meta:
+        verbose_name_plural = "学生反馈类型表"
+        verbose_name = "学生反馈类型表"
+        db_table = "student_feedback_type"
+
+
+# 学生反馈
+class Feedback(TimestampModel):
+    feedback_content = models.TextField(verbose_name='反馈内容', null=False)
+    feedback_class = models.IntegerField(verbose_name='反馈类型')
+    student = models.ForeignKey(Student, to_field="id", verbose_name="学生id", null=True, blank=True,
+                                on_delete=models.DO_NOTHING)
+    type = models.ForeignKey(FeedBackType, to_field="id", verbose_name="类型id", null=True, blank=True,
+                             on_delete=models.DO_NOTHING)
+
+    def get_model_fields(self):
+        return self._meta.fields
+
+    class Meta:
+        verbose_name_plural = "学生反馈表"
+        verbose_name = "学生反馈表"
+        db_table = "student_feedback"
