@@ -234,3 +234,18 @@ class Feedback(TimestampModel):
         verbose_name_plural = "学生反馈表"
         verbose_name = "学生反馈表"
         db_table = "student_feedback"
+
+
+
+# 课程资源目录表
+class ScheduleDirecotryResource(TimestampModel):
+    name = models.CharField(max_length=Constant.db_name_length, verbose_name="资源的名称", null=True)
+    parent_id = models.IntegerField(verbose_name="父节点Id", null=True)
+    resource_id = models.CharField(max_length=Constant.db_name_length, verbose_name="资源id,属于哪个课程下的")
+    path = models.CharField(max_length=Constant.db_description_length, verbose_name="资源路径", null=True)
+    audition = models.BooleanField(verbose_name="是否可试听", default=False)
+
+    class Meta:
+        verbose_name_plural = "课程资源目录表"
+        verbose_name = "课程资源目录表"
+        db_table = "schedule_directory_resource"

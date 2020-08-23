@@ -2,7 +2,8 @@ from django.urls import path
 
 from . import views
 from polls.user import InsertUser, SelectUser, UserLogin, UserLogout, MyClassInfo, ChageUserInfo
-from polls.date import Test01
+from polls.date import Test01, Test02
+
 urlpatterns = [
     # ex: polls
     # name属性可以随意取
@@ -21,5 +22,6 @@ urlpatterns = [
     path('change/data/<uid>', ChageUserInfo.as_view()),
     # 计算日期
     path('count/date', Test01.as_view()),
-
+    # 查看目录
+    path('get/dir/<uid>', Test02.as_view()),
 ]

@@ -164,6 +164,25 @@ with transaction.atomic():
      比如  endTime-startTime>30 表示失效
            否则是有效的。
 
+17. 判断变量类型的函数
+ 2 def typeof(variate):
+ 3     type=None
+ 4     if isinstance(variate,int):
+ 5         type = "int"
+ 6     elif isinstance(variate,str):
+ 7         type = "str"
+ 8     elif isinstance(variate,float):
+ 9         type = "float"
+10     elif isinstance(variate,list):
+11         type = "list"
+12     elif isinstance(variate,tuple):
+13         type = "tuple"
+14     elif isinstance(variate,dict):
+15         type = "dict"
+16     elif isinstance(variate,set):
+17         type = "set"
+18     return type
+
 
 17. 怎么序列化一个元组列表？
    <class 'tuple'>: ((1, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第一练', '美雅课程', 'meiya_niubi', 30), (2, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第二练', '美雅课程', 'meiya_niubi', 30), (3, 1, datetime.datetime(2020, 7, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第三练', '美雅课程', 'meiya_niubi', 30), (4, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第四练', '美雅课程', 'meiya_niubi', 30), (7, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第七练', '美雅课程', 'meiya_niubi', 30), (8, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第八练', '美雅课程', 'meiya_niubi', 30), (9, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第九练', '美雅课程', 'meiya_niubi', 30), (10, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第十练', '美雅课程', 'meiya_niubi', 30), (11, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第11练', '美雅课程', 'meiya_niubi', 30), (12, 1, datetime.datetime(2020, 8, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第12练', '美雅课程', 'meiya_niubi', 30), (13, 1, datetime.datetime(2020, 7, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第13练', '美雅课程', 'meiya_niubi', 30), (14, 1, datetime.datetime(2020, 7, 13, 15, 22, 52), datetime.datetime(2020, 8, 13, 15, 22, 50), None, '英语第14练', '美雅课程', 'meiya_niubi', 30))
@@ -183,3 +202,117 @@ with transaction.atomic():
        然后再对字典进行序列化:
        import json
        res = json.dumps(result_dict, ensure_ascii=False)
+
+19. 怎么判断一个列表为空?
+     根据长度来进行判断
+
+20.  章节目录结构?
+
+{
+    "code": 200,
+    "message": "OK",
+    "data": [
+        {
+            "id": 1,
+            "description": null,
+            "enabled": true,
+            "create_datetime": "2020-08-20T11:45:54Z",
+            "update_datetime": "2020-08-20T11:45:56Z",
+            "delete_datetime": null,
+            "name": "第一章 初级会计入门",
+            "num_id": 1,
+            "parent_id": null,
+            "resource_id": "meiya_niubi",
+            "path": null,
+            "audition": false,
+            "data": [
+                {
+                    "id": 3,
+                    "parent_id": 1,
+                    "name": "第一章 第一讲",
+                    "num_id": 1,
+                    "resource_id": "meiya_niubi",
+                    "path": "//dic1",
+                    "audition": 0
+                },
+                {
+                    "id": 4,
+                    "parent_id": 1,
+                    "name": "第一章 第二讲",
+                    "num_id": 2,
+                    "resource_id": "meiya_niubi",
+                    "path": "//dic2",
+                    "audition": 0
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "description": null,
+            "enabled": true,
+            "create_datetime": "2020-08-20T11:45:54Z",
+            "update_datetime": "2020-08-20T11:45:56Z",
+            "delete_datetime": null,
+            "name": "第二章 初级会计入门",
+            "num_id": 2,
+            "parent_id": null,
+            "resource_id": "meiya_niubi",
+            "path": null,
+            "audition": false,
+            "data": [
+                {
+                    "id": 5,
+                    "parent_id": 2,
+                    "name": "第二章 第一节",
+                    "num_id": 1,
+                    "resource_id": "meiya_niubi",
+                    "path": null,
+                    "audition": 0,
+                    "data": [
+                        {
+                            "id": 7,
+                            "parent_id": 5,
+                            "name": "第二章 第一节 第一讲",
+                            "num_id": 1,
+                            "resource_id": "meiya_niubi",
+                            "path": "//dic3",
+                            "audition": 0
+                        }
+                    ]
+                },
+                {
+                    "id": 6,
+                    "parent_id": 2,
+                    "name": "第二章 第二节",
+                    "num_id": 2,
+                    "resource_id": "meiya_niubi",
+                    "path": null,
+                    "audition": 0,
+                    "data": [
+                        {
+                            "id": 8,
+                            "parent_id": 6,
+                            "name": "第二章 第二节 第一讲",
+                            "num_id": 1,
+                            "resource_id": "meiya_niubi",
+                            "path": "//dic4",
+                            "audition": 0
+                        },
+                        {
+                            "id": 9,
+                            "parent_id": 6,
+                            "name": "第二章 第二节 第二讲",
+                            "num_id": 1,
+                            "resource_id": "meiya_niubi",
+                            "path": "//dic5",
+                            "audition": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "elapsed": 70
+}
+
+21. 怎么序列化日期字段,类型为DateTimeField?
