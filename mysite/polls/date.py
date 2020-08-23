@@ -23,20 +23,25 @@ class Test02(BaseView):
     def get(self, request, uid):
         r = Result()
         alls = ScheduleDirecotryResource.objects.all().filter(resource_id=uid, parent_id=None)
-
-        self.datas = []
-        for i in alls:
-            # 根据父亲去找儿子
-            # 遍历子目录，然后将子记录序列化后添加到父记录里。
-            datas = []
-            results = self.rawSQL(self.sql, [i.id])
-            d = ScheduleDirectorySerializers(i).data
-            for j in results:
-                datas.append(ScheduleDirectorySerializers(j).data)
-            d["data"] = datas
-            self.datas.append(d)
-            self.set_child(self, datas)
-        r.data = self.datas
+        try:
+            if len(alls) > 0:
+                self.datas = []
+                for i in alls:
+                    # 根据父亲去找儿子
+                    # 遍历子目录，然后将子记录序列化后添加到父记录里。
+                    datas = []
+                    results = self.rawSQL(self.sql, [i.id])
+                    d = ScheduleDirectorySerializers(i).data
+                    for j in results:
+                        datas.append(ScheduleDirectorySerializers(j).data)
+                    d["data"] = datas
+                    self.datas.append(d)
+                    self.set_child(self, datas)
+                r.data = self.datas
+            else:
+                raise Exception("没有找到课程" + uid + "!")
+        except Exception as e:
+            r.error(e)
         return self.s_result(r)
 
     @staticmethod
@@ -44,7 +49,7 @@ class Test02(BaseView):
         # 根据当前id作为parent_id去查询其他记录
         for i in results:
             id = i["id"]
-            res_datas=[]
+            res_datas = []
             res = self.rawSQL(self.sql, [id])
             if res is None or len(res) == 0:
                 continue
