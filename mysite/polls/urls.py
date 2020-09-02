@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 from polls.user import InsertUser, SelectUser, UserLogin, UserLogout, MyClassInfo, ChageUserInfo
-from polls.date import Test01, Test02
+from polls.date import Test01, Test02, Test03
 
 urlpatterns = [
     # ex: polls
@@ -24,4 +24,7 @@ urlpatterns = [
     path('count/date', Test01.as_view()),
     # 查看目录
     path('get/dir/<uid>', Test02.as_view()),
+
+    path('get/dir1/<uid>', Test03.as_view()),
+
 ]

@@ -236,14 +236,33 @@ class Feedback(TimestampModel):
         db_table = "student_feedback"
 
 
+# 课程资源类型表
+# class ScheduleDirecotryResourceType(TimestampModel):
+#     class Meta:
+#         verbose_name_plural = "课程资源类型表"
+#         verbose_name = "课程资源类型表"
+#         db_table = "schedule_directory_resource_type"
 
-# 课程资源目录表
+DIRECTORY_RESOURCE_CHOICES = (
+    (1, '理论须知'),
+    (2, '音频图文'),
+    (3, '练习'),
+    (4, '课件'),
+)
+
+
 class ScheduleDirecotryResource(TimestampModel):
     name = models.CharField(max_length=Constant.db_name_length, verbose_name="资源的名称", null=True)
+    num_id = models.IntegerField(verbose_name="章节顺序", null=True)
     parent_id = models.IntegerField(verbose_name="父节点Id", null=True)
     resource_id = models.CharField(max_length=Constant.db_name_length, verbose_name="资源id,属于哪个课程下的")
     path = models.CharField(max_length=Constant.db_description_length, verbose_name="资源路径", null=True)
     audition = models.BooleanField(verbose_name="是否可试听", default=False)
+    # type = models.ForeignKey(ScheduleDirecotryResourceType, to_field="id",
+    #                          related_name="schedule_directory_resource_type_id",
+    #                          verbose_name="讲的类型id",
+    #                          on_delete=models.DO_NOTHING, null=True)
+    type = models.IntegerField(verbose_name="类型", choices=DIRECTORY_RESOURCE_CHOICES, default=1)
 
     class Meta:
         verbose_name_plural = "课程资源目录表"

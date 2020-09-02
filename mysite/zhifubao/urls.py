@@ -1,4 +1,4 @@
-"""mysite URL Configuration
+"""zhifubao URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -15,10 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls import include
-
+from zhifubao.utils import AliPayView
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('polls/', include('polls.urls')),
-    path('pay/', include('zhifubao.urls'))
+    path('get/csdn/<order_id>/<total_pay>',AliPayView.as_view())
 ]

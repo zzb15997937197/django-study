@@ -40,8 +40,17 @@ class MyClassInfoSerializer(serializers.ModelSerializer):
                   'resource_description')
 
 
+# class ScheduleDirecotryResourceTypeSeriralizers(serializers.ModelSerializer):
+#     class Meta:
+#         model = ScheduleDirecotryResourceType
+#         fields = ("id", "description")
+
+
 class ScheduleDirectorySerializers(serializers.ModelSerializer):
     # id,create_datetime,parent_id,name,resource_id,path,audition
+    type_name=serializers.SerializerMethodField()
+
     class Meta:
         model = ScheduleDirecotryResource
-        fields = ("id", "create_datetime", "parent_id", "name", "resource_id", "path", "audition")
+        fields = ("id", "create_datetime", "parent_id", "name", "resource_id", "path", "audition", "type","type_name")
+

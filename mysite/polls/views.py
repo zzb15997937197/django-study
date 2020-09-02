@@ -1,14 +1,10 @@
 from django.shortcuts import render
 
 # Create your views here.返回给前端页面
-import datetime
-from django.template.loader import get_template
-from django.template.context import Context
 from django.http import HttpResponse, JsonResponse
 from polls.HttpResult import Result
 from django.db import connection
 from polls.models import Student
-from polls.Serializers import UserSerializers
 
 from django.shortcuts import render, render_to_response, redirect
 
