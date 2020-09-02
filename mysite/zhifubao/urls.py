@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from zhifubao.utils import AliPayView
+
 urlpatterns = [
-    path('get/csdn/<order_id>/<total_pay>',AliPayView.as_view())
+    path('get/view/<total_pay>', AliPayView.as_view())
 ]

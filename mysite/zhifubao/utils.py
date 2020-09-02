@@ -1,11 +1,24 @@
 import requests
 from django.http import HttpResponse
 import json
+import random
+import datetime
 
 import os
 from alipay import AliPay
 from rest_framework.views import APIView
 from django.conf import settings
+
+
+class OrderUtils:
+
+    @staticmethod
+    def get_order_number():
+        now = datetime.datetime.now()
+        str_time = now.strftime('%Y%m%d%H%M%S')
+        # 在加一个4位的随机数
+        rand_str = str(random.randrange(1000, 9999))
+        return str_time + rand_str
 
 
 class RequestAPI(APIView):
@@ -30,14 +43,17 @@ class AliPayView(APIView):
         app_private_key_string=app_private_key_string,
         alipay_public_key_string=alipay_public_key_string,
         sign_type="RSA2",
-        debug=False,  # 上线则改为False , 沙箱True
+        debug=True,  # 上线则改为False , 沙箱True
     )
 
-    def get(self, request, order_id, total_pay):
+    def get(self, request, total_pay):
+        order_number = OrderUtils.get_order_number()
+        print("订单号为:", order_number)
         order_string = self.alipay.api_alipay_trade_page_pay(
-            out_trade_no=order_id,
+            out_trade_no=order_number,
             total_amount=str(total_pay),
-            subject='支付订单:%s' % order_id,
+            # subject='支付订单:%s' % order_id,
+            subject='支付订单',
             # 回调
             return_url=None,
             # 通知
