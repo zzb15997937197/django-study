@@ -6,7 +6,19 @@ from django.http import JsonResponse
 from polls.BaseView import BaseView
 from django.db import transaction
 
-from polls.Serializers import UserSerializers
+from polls.serializers import UserSerializers
+
+
+class BatchCreateUser(APIView):
+
+    def post(self, request, uid=None):
+        b = User(username=uid)
+        q = []
+        for i in range(0, 10):
+            q.append(b)
+        users = User.objects.bulk_create(q)
+        print(users)
+        return HttpResponse("批量创建对象!")
 
 
 class InsertUser(APIView):

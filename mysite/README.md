@@ -1,5 +1,3 @@
-
-
 1. 序列化时，class Meta: 下的model 可以为多个Model嘛？
    不可以，只能有一个model。
    如果是一对多的模式，可以直接使用直接序列关联的外键。 detail为关联的外键的model
@@ -49,11 +47,17 @@ le time zone support is active.
 
 
 5. 索引
-   唯一性索引:  unique_together
-   联合索引:  model.indexs(fields=['first_name','last_name'])
+   在class Meta: 添加
+   唯一性索引:  unique_together('first_name', 'last_name',)
+   联合索引:  indexes = [
+            # 联合索引，遵循mysql的最左匹配原则
+            models.Index(fields=['last_name', 'first_name']),
+            # 单个索引
+            models.Index(fields=['first_name'], name='first_name_idx'),
+        ]
 
 
-6. 模糊查询
+6.  怎么使用orm进行模糊查询
     通过使用name__icontains()属性即可。
 
 
@@ -122,7 +126,7 @@ with transaction.atomic():
 
 
 13. 怎么让model不迁移到数据库里?
-     目前没有实现
+    不行，因为django会根据迁移文件，将model映射成数据库里的Sql。
 
 
 14.  怎么计算日期?
@@ -207,7 +211,6 @@ with transaction.atomic():
      根据长度来进行判断
 
 20.  章节目录结构?
-
 {
     "code": 200,
     "message": "OK",
@@ -317,14 +320,12 @@ with transaction.atomic():
 
 21. 怎么序列化日期字段,类型为DateTimeField?
      对日期进行转字符串，然后对记录进行单独的Json.dumps
-22. 怎么使用choices显示中文字段？
-     st=Student.objects.create(student_id='22001100',name='赵敏',gender='F',age=22)
-     st.gender
-     取中文时，需要
-     st.get_gender_display
+     
+     
+22. 
      
 23. 序列化的时候怎么要选择数据库？
-    如果你选择另外一个admin库查询，但是作序列化时会自动关联到该应用默认的数据库。
+    如果你选择另外一个admin库查询，但是作序列化时会自动关联到该应用默认的数据库，做序列化时会默认选择default数据库。
   
   解决返回中文乱码的问题:
   def test(request):
@@ -347,4 +348,15 @@ with transaction.atomic():
  
  
  27.  对接支付宝支付。
+ 
+ 28. choices的使用。
+      可以通过给models的Integer字段选为choices，然后根据chioces获取到对应的中文返回。
+ 
+29. 怎么批量创建对象? 
+     根据objects.bulk_create()方法来创建。
+ b = User(username=uid)
+        q = []
+        for i in range(0, 10):
+            q.append(b)
+        users = User.objects.bulk_create(q)
       

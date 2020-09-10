@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from polls.models import User, MyClassReource, ScheduleDirecotryResource
+from polls.models import User, MyClassReource, ScheduleDirecotryResource, Student, EDUCATION_CHOICE
+
+
+class StudentSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = "__all__"
 
 
 class UserSerializers(serializers.ModelSerializer):
@@ -48,9 +54,8 @@ class MyClassInfoSerializer(serializers.ModelSerializer):
 
 class ScheduleDirectorySerializers(serializers.ModelSerializer):
     # id,create_datetime,parent_id,name,resource_id,path,audition
-    type_name=serializers.SerializerMethodField()
+    type_name = serializers.SerializerMethodField()
 
     class Meta:
         model = ScheduleDirecotryResource
-        fields = ("id", "create_datetime", "parent_id", "name", "resource_id", "path", "audition", "type","type_name")
-
+        fields = ("id", "create_datetime", "parent_id", "name", "resource_id", "path", "audition", "type", "type_name")

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from polls.user import InsertUser, SelectUser, UserLogin, UserLogout, MyClassInfo, ChageUserInfo
+from polls.user import InsertUser, SelectUser, UserLogin, UserLogout, MyClassInfo, ChageUserInfo, BatchCreateUser
 from polls.date import Test01, Test02, Test03
 
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     # name属性可以随意取
     path('', views.index, name='index'),
     path('insert/record/<name>', InsertUser.as_view()),
+    path('batch/create/<uid>', BatchCreateUser.as_view()),
     path('get/records/<uuid>', SelectUser.as_view()),
     path('login', UserLogin.as_view()),
     path('logout', UserLogout.as_view()),
@@ -24,7 +25,8 @@ urlpatterns = [
     path('count/date', Test01.as_view()),
     # 查看目录
     path('get/dir/<uid>', Test02.as_view()),
-
     path('get/dir1/<uid>', Test03.as_view()),
+    # 获取用户信息，测试choices
+    path('get/user', views.get_user_info)
 
 ]

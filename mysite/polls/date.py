@@ -2,7 +2,7 @@ from polls.BaseView import BaseView
 from django.utils import timezone
 from polls.HttpResult import Result
 from polls.models import ScheduleDirecotryResource
-from polls.Serializers import ScheduleDirectorySerializers
+from polls.serializers import ScheduleDirectorySerializers
 import json
 
 
