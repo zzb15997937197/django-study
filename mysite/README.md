@@ -353,10 +353,20 @@ with transaction.atomic():
       可以通过给models的Integer字段选为choices，然后根据chioces获取到对应的中文返回。
  
 29. 怎么批量创建对象? 
-     根据objects.bulk_create()方法来创建。
+     根据objects.bulk_create()方法来创建，批量创建的对象会直接插入到数据库中
  b = User(username=uid)
         q = []
         for i in range(0, 10):
             q.append(b)
         users = User.objects.bulk_create(q)
-      
+
+30. 怎么查看models执行的sql日志?
+    from django.db import connection
+    print(connection.queries)
+    
+
+31. filter怎么判断不等于?
+    from django.db.models import Q
+     ~Q(username="zhangsan")
+     
+32. eval()函数，不能处理null，需要将null转换为None才行，否则会报错undefine

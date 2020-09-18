@@ -31,9 +31,13 @@ class User(models.Model):
     username = models.CharField(max_length=20, verbose_name="用户名", null=True)
     password = models.CharField(max_length=20, verbose_name="密码", null=True)
     gender = models.IntegerField(verbose_name="性别", choices=GENDER_CHOICE, default=0, null=False)
+    age = models.IntegerField(verbose_name="年龄", default=0)
 
     def __str__(self):
         return "用户测试表"
+
+    def introduce(self):
+        return "you username is " + self.username
 
     class Meta:
         verbose_name = "用户表"

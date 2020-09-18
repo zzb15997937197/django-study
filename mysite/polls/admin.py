@@ -18,8 +18,8 @@ class FlatPageAdmin(admin.ModelAdmin):
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['name',]
-    search_fields = ['name',]
+    list_display = ('name', 'birthday')
+    search_fields = ('name',)
 
 
 admin.site.register(Student, StudentAdmin)

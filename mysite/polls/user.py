@@ -4,7 +4,8 @@ from polls.HttpResult import Result
 from polls.models import User, MyClassReource
 from django.http import JsonResponse
 from polls.BaseView import BaseView
-from django.db import transaction
+from django.db import transaction, connection
+from django.db.models import Aggregate, Avg, Count, Sum, Max, Min
 
 from polls.serializers import UserSerializers
 
@@ -64,9 +65,11 @@ class ChageUserInfo(BaseView):
 class SelectUser(APIView):
     def get(self, request, uuid):
         print("查询员工信息!")
-        user = User.objects.all().values_list("username", "password")
+        # values返回的是一个字典
+        user = User.objects.all().values("username", "password")
         print(user)
         # 使用filter,类似于Mysql的where子句
+        # values_list()返回成为元组
         user1 = User.objects.all().filter(username="zhuzhu").values_list("password")
         print("user1", user1)
         # .exclude  排除
@@ -75,8 +78,9 @@ class SelectUser(APIView):
         one_entry = User.objects.get(pk=1)
         print(one_entry)
         print("查询完毕!")
+        # 打印sql
+        print("sql:", connection.queries)
         return HttpResponse(user)
-
 
 # 登入
 class UserLogin(APIView):

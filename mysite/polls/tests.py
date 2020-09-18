@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+from polls.models import User
 # Create your tests here.
 
 
@@ -34,3 +34,18 @@ a = 123.373388
 print(round(a, 3))
 a = 123
 print(float(a))
+
+
+
+
+class AnimalTestCase(TestCase):
+    def setUp(self):
+        User.objects.create(username="lion", password="roar")
+        User.objects.create(username="cat", password="meow")
+
+    def test_animals_can_speak(self):
+        """Animals that can speak are correctly identified"""
+        lion = User.objects.get(username="lion")
+        cat = User.objects.get(username="cat")
+        self.assertEqual(lion.introduce(), 'you username is lion')
+        self.assertEqual(cat.introduce(), 'you username is cat')
