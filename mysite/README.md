@@ -370,3 +370,16 @@ with transaction.atomic():
      ~Q(username="zhangsan")
      
 32. eval()函数，不能处理null，需要将null转换为None才行，否则会报错undefine
+
+
+33. 分组查询，需要配合.annote()一起使用。in_student为别名
+    schs = Schedule.objects.filter(student=s).values("resource_id").annotate(in_student=Min("id"))
+            print(schs.query)
+
+
+34. 使用URLField能将url的地址的内容展示出来
+   URLField
+
+
+35. 在设置model时，可以设置null或者空。
+     null=True, blank=True
