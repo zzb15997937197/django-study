@@ -377,8 +377,8 @@ with transaction.atomic():
             print(schs.query)
 
 
-34. 使用URLField能将url的地址的内容展示出来
-   URLField
+34. 使用URLField能将url的地址的内容展示出来,使用ImageField能选择上传的图片
+    URLField，ImageField, 另外ImageField能够设置上传的路径。
 
 
 35. 在设置model时，可以设置null或者空。
