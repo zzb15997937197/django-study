@@ -383,3 +383,9 @@ with transaction.atomic():
 
 35. 在设置model时，可以设置null或者空。
      null=True, blank=True
+     
+36. 可以通过命令python manage.py collectstatic 来查看django应用的static目录下所有的资源。
+
+37. 每一个对象的创建都会自动调用__init()__方法。
+
+38. 创建线程类时，需要注意: __init()__方法只有在threading.Thread.init(self)执行后，才能够创建线程对象并执行__init__方法。
