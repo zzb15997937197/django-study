@@ -389,3 +389,38 @@ with transaction.atomic():
 37. 每一个对象的创建都会自动调用__init()__方法。
 
 38. 创建线程类时，需要注意: __init()__方法只有在threading.Thread.init(self)执行后，才能够创建线程对象并执行__init__方法。
+
+39. 返回案例中多对多的字段的数据显示。
+class HandsOnCaseMenuTreeItemDetails(TimestampModel):
+    info = models.CharField(verbose_name="简介描述", max_length=Constant.db_simple_text_length, null=False, blank=False,
+                            default="")
+    items = models.ManyToManyField(HandsOnCaseItems, verbose_name='任务列表', default="", blank=True)
+    menu = models.ForeignKey(HandsOnCaseMenuTreeItem, verbose_name='实操目录',
+                             to_field='id', related_name='hands_on_case_menu_tree_item_details_id',
+                             on_delete=models.DO_NOTHING,
+                             null=True)
+
+    def all_items(self):
+        return [a.order_name for a in self.items.all()]
+
+    class Meta:
+        verbose_name_plural = "实操目录详情"
+        verbose_name = "实操目录详情"
+        db_table = "hands_on_case_menu_tree_item_details"
+        
+36. 元组和字典可以想换转换
+     1) 使用元组初始化一个字典，可以直接使用dict.fromkeys(tuple)
+     2) 字典转换为元组，可以直接通过tuple(dict)
+     
+  
+37. /和//的区别?
+   /运算的时候，会将结果完整的打印出来，如果结果是小数，那么会打印出小数点后面的。
+   // 运算的时候，如果结果是小数，那么只会打印出整数部分。
+>>> 2/5
+0.4
+>>> 2//5
+0
+>>> 5/2
+2.5
+>>> 5//2
+2

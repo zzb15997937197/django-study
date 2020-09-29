@@ -14,7 +14,7 @@ else:
 print(dict_data["age"])
 
 # 4. keys()方法，返回该字典的键列表，包含该字典内的所有键
-print(dict_data.keys())
+print("获取所有的key", dict_data.keys(), "类型:", type(dict_data.keys()))
 
 # 5. get(key,default=None)返回指定的key,如果key不存在，那么返回default值。
 print(dict_data.get("address", "不存在!"))
@@ -39,3 +39,17 @@ print("pop_item", pop_item, ",dict_data", dict_data)
 # 10. .fromkeys()方法，根据元组序列来生成一个字典
 tuple_data = ("name", "age", "address")
 print("根据元组生成字典:", dict.fromkeys(tuple_data))
+
+print("当前局部变量", locals())
+print("当前全局变量", globals())
+
+dict_data = {"1": 1, "2": 2}
+print(dict_data)
+print(dict_data.get("1"))
+
+# 取出字典的第二个元素
+print("2" in dict_data)
+
+print(tuple(dict_data))
+
+# 元组和字典可以相互转换，转换的是字典的keys
