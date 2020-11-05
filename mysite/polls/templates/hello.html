@@ -5,6 +5,12 @@
     <title>使用模板创建前端页面</title>
 </head>
 <body>
-     这是一个通过template创建出来的页面!
+这是一个通过template创建出来的页面!
+
+<!--定义一个post请求的表单-->
+<form action="/polls/test/form" method="post">
+    {% csrf_token %}
+    <input type="submit" value="提交"/>
+</form>
 </body>
 </html>

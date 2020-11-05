@@ -33,3 +33,4 @@ print(data)
 data = '{"a":1,"b":2,"c":3,"d":4,"e":5}'
 data_object = json.loads(data)
 print("对象为:", data_object)
+

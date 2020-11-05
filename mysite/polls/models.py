@@ -146,6 +146,7 @@ class Student(TimestampModel):
     learn_target = models.CharField(max_length=Constant.db_description_length, verbose_name='学习目的')
     learn_goal = models.IntegerField(choices=GOAL_CHOICE, verbose_name='学习目标')
     address = models.CharField(max_length=Constant.db_address_length, verbose_name='收货地址')
+    amount = models.DecimalField(verbose_name="金额", max_digits=3, decimal_places=2, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = '学员'
@@ -240,12 +241,7 @@ class Feedback(TimestampModel):
         db_table = "student_feedback"
 
 
-# 课程资源类型表
-# class ScheduleDirecotryResourceType(TimestampModel):
-#     class Meta:
-#         verbose_name_plural = "课程资源类型表"
-#         verbose_name = "课程资源类型表"
-#         db_table = "schedule_directory_resource_type"
+
 
 DIRECTORY_RESOURCE_CHOICES = (
     (1, '理论须知'),
@@ -262,10 +258,6 @@ class ScheduleDirecotryResource(TimestampModel):
     resource_id = models.CharField(max_length=Constant.db_name_length, verbose_name="资源id,属于哪个课程下的")
     path = models.CharField(max_length=Constant.db_description_length, verbose_name="资源路径", null=True)
     audition = models.BooleanField(verbose_name="是否可试听", default=False)
-    # type = models.ForeignKey(ScheduleDirecotryResourceType, to_field="id",
-    #                          related_name="schedule_directory_resource_type_id",
-    #                          verbose_name="讲的类型id",
-    #                          on_delete=models.DO_NOTHING, null=True)
     type = models.IntegerField(verbose_name="类型", choices=DIRECTORY_RESOURCE_CHOICES, default=1)
 
     class Meta:

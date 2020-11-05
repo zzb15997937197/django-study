@@ -424,3 +424,32 @@ class HandsOnCaseMenuTreeItemDetails(TimestampModel):
 2.5
 >>> 5//2
 2
+
+
+38. python的字典dict是有序的嘛?
+    dict的顺序是无序的
+39. python的有序字典是什么？
+     import collections
+     order_dict=collection.OrderedDict()
+     
+40. django的传参方式有哪些?
+      post请求:
+        1) 在form_data里面，可以使用request.data['phone'] 来获取参数。
+        2) 在form_data里面，可以使用request.POST.get("phone)来获取参数。
+        3) 在raw里面，直接使用request.body来获取Body里面所有的内容。
+
+41. 在django的orm里怎么操作like关键字?
+     查询出用户名中含有小张的所有记录 
+     User.objects.filter(username__icontains=“小张”)
+     相当于like "%小张%"
+     
+42. 在django的orm怎么操作In关键字?
+         ids = request.data["ids"].split(",")
+        # ids为列表["1","2"]
+         res = UserInvoiceTypeDefine.objects.filter(id__in=ids)
+         
+43. django 通过values_list()获取指定的key的值列表
+        invoice_types = UserInvoiceTypeDefine.objects.filter(
+                user_id=user["id"],
+                resource_uid=resource_uid).values_list("invoice_type")
+        结果为: <TimestampQuerySet [(0,), (1,)]>

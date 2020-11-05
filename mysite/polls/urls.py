@@ -1,7 +1,8 @@
 from django.urls import path
 
 from . import views
-from polls.user import InsertUser, SelectUser, UserLogin, UserLogout, MyClassInfo, ChageUserInfo, BatchCreateUser
+from polls.user import InsertUser, SelectUser, UserLogin, UserLogout, MyClassInfo, ChageUserInfo, BatchCreateUser, \
+    FromPostTest
 from polls.date import Test01, Test02, Test03
 from polls.python_study.reportlab_pdf_demo_2 import some_view
 
@@ -30,6 +31,8 @@ urlpatterns = [
     # 获取用户信息，测试choices
     path('get/user', views.get_user_info),
     # 生成pdf文件
-    path('produce/pdf', some_view, name="pdf_view")
+    path('produce/pdf', some_view, name="pdf_view"),
+    # 测试form表单
+    path('test/form', FromPostTest.as_view())
 
 ]

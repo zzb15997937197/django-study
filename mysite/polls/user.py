@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from polls.HttpResult import Result
@@ -6,7 +7,6 @@ from django.http import JsonResponse
 from polls.BaseView import BaseView
 from django.db import transaction, connection
 from django.db.models import Aggregate, Avg, Count, Sum, Max, Min
-
 from polls.serializers import UserSerializers
 
 
@@ -82,6 +82,7 @@ class SelectUser(APIView):
         print("sql:", connection.queries)
         return HttpResponse(user)
 
+
 # 登入
 class UserLogin(APIView):
 
@@ -147,3 +148,11 @@ class MyClassInfo(APIView):
         print(user)
         myClassReource = MyClassReource.objects.filter(id=uid)
         return HttpResponse("成功")
+
+
+# post请求
+class FromPostTest(APIView):
+
+    def post(self, request):
+        print("请求成功!")
+        return render(request, "index.html")
