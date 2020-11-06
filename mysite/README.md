@@ -158,7 +158,13 @@ with transaction.atomic():
         timeArray = time.localtime(int(delta_seconds))
         otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
         print("otherStyleTime",otherStyleTime)
-
+        5) 直接使用strftime()方法来讲dateTimeField的字段格式化为字符串类型的时间
+             i.apply_date = i.apply_date.strftime("%Y-%m-%d")
+           如果是DateTimeField类型的时间字段，存的时间格式为:
+           2020-11-05 06:04:00.369277
+           from django.utils import timezone
+           create_time=timezone.now()
+        
 
 
 15. 怎么将小数转换为整数，整数与小数互换？
@@ -453,3 +459,12 @@ class HandsOnCaseMenuTreeItemDetails(TimestampModel):
                 user_id=user["id"],
                 resource_uid=resource_uid).values_list("invoice_type")
         结果为: <TimestampQuerySet [(0,), (1,)]>
+        
+  
+44. django怎么使用orm来对结果集按照指定的字段进行排序？
+     在objects后面使用.order_by() ,括号里为字段，如果是逆序的话用("-字段")
+   
+
+45. django怎么对datetimeField()赋值?
+      from django.utils import timezone
+      create_time=timezone.now()
